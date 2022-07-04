@@ -10,8 +10,8 @@ namespace WorkShop.Library.IServices
 {
     public interface ICorporateCommand
     {
-        Task<bool> CreateCoporate(CoporateModel coporateModel, MySqlConnection connection);
+        Task<bool> CreateCoporate(CorporateModel coporateModel, MySqlConnection connection);
 
-        Task<bool> Validate(CoporateModel coporateModel);
+        Task<bool> Validate(CorporateModel coporateModel);
     }
 }
