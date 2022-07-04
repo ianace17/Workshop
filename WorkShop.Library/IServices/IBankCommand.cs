@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
+using WorkShop.Library.ICommand;
 using WorkShop.Library.Model;
 
 namespace WorkShop.Library.IServices
 {
-    public interface IBankCommand
+    public interface IBankCommand : ICommandOperation<BankModel>
     {
-        Task<bool> CreateBank(List<BankModel> bankModels, MySqlConnection connection);
     }
 }

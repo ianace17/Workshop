@@ -8,7 +8,7 @@ using WorkShop.Library.IServices;
 using WorkShop.Library.Model;
 using Serilog;
 using Dapper;
-
+using WorkShop.Library.ICommand;
 
 namespace WorkShop.Library.Services
 {
@@ -21,11 +21,17 @@ namespace WorkShop.Library.Services
         {
             this._appConfig = appConfig;
         }
-        public async Task<bool> CreateCoporate(CorporateModel coporateModel, MySqlConnection connection)
+
+        public async Task<bool> Add(CorporateModel coporateModel, MySqlConnection? connection = null)
         {
             bool result = false;
             try
             {
+                if(connection == null)
+                {
+                    using var conn = new MySqlConnection(_appConfig.Db);
+                    connection = conn;
+                }
                 string query = "insert into  `corporate` ( account_id, company_name, sec_registration_no, tin, office_address, business_nature, yrs_in_operation, tel_no, fax_no, email) " +
                     "values " +
                     "(@account_id, @company_name, @sec_registration_no, @tin, @office_address, @business_nature, @yrs_in_operation, @tel_no, @fax_no, @email)" +
@@ -56,6 +62,17 @@ namespace WorkShop.Library.Services
                 Log.Error(ex.ToString());
             }
             return result;
+        }
+
+        public Task<bool> Add(List<CorporateModel> values, MySqlConnection? connection = null)
+        {
+            throw new NotImplementedException();
+        }
+        
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<bool> Validate(CorporateModel coporateModel)

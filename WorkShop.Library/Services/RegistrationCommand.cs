@@ -68,7 +68,7 @@ namespace WorkShop.Library.Services
                 {
                     using (MySqlTransaction transaction = cnn.BeginTransaction())
                     {
-                        result = await this._accountCommand.CreateAccount(corporateRegistrationModel.AccountDetails, cnn);
+                        result = await this._accountCommand.Add(corporateRegistrationModel.AccountDetails, cnn);
 
                         if(result)
                         {
@@ -78,10 +78,10 @@ namespace WorkShop.Library.Services
                             corporateRegistrationModel.CorporateDetails.AccountId = corporateRegistrationModel.AccountDetails.ID;
 
 
-                            if(await this._corporateCommand.CreateCoporate(corporateRegistrationModel.CorporateDetails, cnn) &&
-                               await this._userCommand.CreateUser(corporateRegistrationModel.Users, cnn) &&
-                               await this._addressCommand.CreateAddress(corporateRegistrationModel.Addresses, cnn) &&
-                               await this._bankCommand.CreateBank(corporateRegistrationModel.Banks, cnn))
+                            if(await this._corporateCommand.Add(corporateRegistrationModel.CorporateDetails, cnn) &&
+                               await this._userCommand.Add(corporateRegistrationModel.Users, cnn) &&
+                               await this._addressCommand.Add(corporateRegistrationModel.Addresses, cnn) &&
+                               await this._bankCommand.Add(corporateRegistrationModel.Banks, cnn))
                             {
                                 transaction.Commit();
                                 return true;
@@ -123,7 +123,7 @@ namespace WorkShop.Library.Services
                 {
                     using (MySqlTransaction transaction = cnn.BeginTransaction())
                     {
-                        result = await this._accountCommand.CreateAccount(registrationModel.AccountDetails, cnn);
+                        result = await this._accountCommand.Add(registrationModel.AccountDetails, cnn);
 
                         if (result)
                         {
@@ -132,9 +132,9 @@ namespace WorkShop.Library.Services
                             registrationModel.Banks.ForEach(c => c.AccountId = registrationModel.AccountDetails.ID);
 
 
-                            if (await this._userCommand.CreateUser(registrationModel.Users, cnn) &&
-                               await this._addressCommand.CreateAddress(registrationModel.Addresses, cnn) &&
-                               await this._bankCommand.CreateBank(registrationModel.Banks, cnn))
+                            if (await this._userCommand.Add(registrationModel.Users, cnn) &&
+                               await this._addressCommand.Add(registrationModel.Addresses, cnn) &&
+                               await this._bankCommand.Add(registrationModel.Banks, cnn))
                             {
                                 transaction.Commit();
                                 return true;

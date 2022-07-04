@@ -8,7 +8,7 @@ using WorkShop.Library.IServices;
 using WorkShop.Library.Model;
 using Serilog;
 using Dapper;
-
+using WorkShop.Library.ICommand;
 
 namespace WorkShop.Library.Services
 {
@@ -21,11 +21,22 @@ namespace WorkShop.Library.Services
         {
             this._appConfig = appConfig;
         }
-        public async Task<bool> CreateBank(List<BankModel> bankModels, MySqlConnection connection)
+
+        public Task<bool> Add(BankModel obj, MySqlConnection? connection = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> Add(List<BankModel> bankModels, MySqlConnection? connection = null)
         {
             bool result = false;
             try
             {
+                if(connection == null)
+                {
+                    using var conn = new MySqlConnection(_appConfig.Db);
+                    connection = conn;
+                }
                 string query = "insert into `bank` (account_id, name, branch, account_no, status) " +
                     "values (@account_id, @name, @branch, @account_no, @status) ";
                 foreach (var item in bankModels)
@@ -56,6 +67,11 @@ namespace WorkShop.Library.Services
                 Log.Error(ex.ToString());
             }
             return result;
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -8,6 +8,7 @@ using Serilog;
 using WorkShop.Library.IServices;
 using WorkShop.Library.Model;
 using Dapper;
+using WorkShop.Library.ICommand;
 
 namespace WorkShop.Library.Services
 {
@@ -21,11 +22,8 @@ namespace WorkShop.Library.Services
         {
             this._appConfig = appConfig;
         }
-        public Task<bool> ApprovedAccount(AccountModel accountModel)
-        {
-            throw new NotImplementedException();
-        }
-        public async Task<bool> CreateAccount(AccountModel accountModel, MySqlConnection connection)
+
+        public async Task<bool> Add(AccountModel accountModel, MySqlConnection? connection = null)
         {
             bool result = false;
             try
@@ -36,7 +34,11 @@ namespace WorkShop.Library.Services
                     "(@last_name, @first_name, @middle_name, @tel_no, @mobile_no, @nationality, " +
                     "@civil_status, @spouse_name, @tin, @email, @occupation, @business_nature, @employer_name, @business_address)" +
                     "select last_insert_id(); ";
-
+                if(connection == null)
+                {
+                    using var conn = new MySqlConnection(_appConfig.Db);
+                    connection = conn;
+                }
                 var data = await connection.ExecuteScalarAsync<long>(query, new
                 {
                     last_name = accountModel.Lastname,
@@ -58,7 +60,7 @@ namespace WorkShop.Library.Services
 
                 });
 
-                if(data > 0)
+                if (data > 0)
                 {
                     accountModel.ID = data;
                     result = true;
@@ -69,6 +71,31 @@ namespace WorkShop.Library.Services
                 Log.Error(ex.ToString());
             }
             return result;
+        }
+
+        public Task<bool> Add(List<AccountModel> values, MySqlConnection? connection = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> ApprovedAccount(AccountModel accountModel)
+        {
+            var result = false;
+            try
+            {
+                //using(var connection = new MySqlConnection(_appConfig))
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return result;
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

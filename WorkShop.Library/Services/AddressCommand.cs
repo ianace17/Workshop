@@ -8,7 +8,7 @@ using WorkShop.Library.IServices;
 using WorkShop.Library.Model;
 using Serilog;
 using Dapper;
-
+using WorkShop.Library.ICommand;
 
 namespace WorkShop.Library.Services
 {
@@ -21,17 +21,30 @@ namespace WorkShop.Library.Services
         {
             this._appConfig = appConfig;
         }
-        public async Task<bool> CreateAddress(List<AddressModel> addressModels, MySqlConnection connection)
+
+        public Task<bool> Add(AddressModel obj, MySqlConnection? connection = null)
         {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> Add(List<AddressModel> addressModels, MySqlConnection? connection = null)
+        {
+
             bool result = false;
             try
             {
+                if(connection == null)
+                {
+                    using var conn = new MySqlConnection(_appConfig.Db);
+                    connection = conn;
+                }
                 string query = "insert into address (account_id, house_no, street_name, barangary, city, province, postal_code, status) " +
                     "values (@account_id, @house_no, @street_name, @barangary, @city, @province, @postal_code, @status) ";
                 foreach (var item in addressModels)
                 {
                     var row = await connection.ExecuteAsync(query,
-                        new {
+                        new
+                        {
                             account_id = item.AccountId,
                             house_no = item.HouseNo,
                             street_name = item.Streetname,
@@ -57,6 +70,10 @@ namespace WorkShop.Library.Services
                 Log.Error(ex.ToString());
             }
             return result;
+        }
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }

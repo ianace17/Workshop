@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using WorkShop.Library.ICommand;
 using WorkShop.Library.Model;
 
 namespace WorkShop.Library.IServices
 {
-    public interface IAccountCommand
+    public interface IAccountCommand : ICommandOperation<AccountModel>
     {
-        Task<bool> CreateAccount(AccountModel accountModel, MySqlConnection connection);
-
         Task<bool> ApprovedAccount(AccountModel accountModel);
     }
 }
