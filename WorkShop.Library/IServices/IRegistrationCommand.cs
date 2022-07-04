@@ -9,6 +9,7 @@ namespace WorkShop.Library.IServices
 {
     public interface IRegistrationCommand
     {
+        string GetErrorMessage();
         Task<bool> CreateIndividual(RegistrationModel registrationModel);
 
         Task<bool> CreateCorporate(CorporateRegistrationModel corporateRegistrationModel);

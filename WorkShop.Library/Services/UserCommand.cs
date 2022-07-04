@@ -29,7 +29,7 @@ namespace WorkShop.Library.Services
 
         public async Task<bool> Add(List<UserModel> userModels, MySqlConnection? connection = null)
         {
-            var result = false;
+            var result = true;
             try
             {
                 if(connection == null)
@@ -37,18 +37,31 @@ namespace WorkShop.Library.Services
                     using var conn = new MySqlConnection(_appConfig.Db);
                     connection = conn;
                 }
-                Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
-                var query = "insert into user(account_id,last_name,middle_name,first_name,email,birth_date,gender,password,status) " +
-                            "user(@account_id,@last_name,@middle_name,@first_name,@email,@birth_date,@gender,@password,@status)";
+                var query = "insert into user(account_id,last_name,middle_name,first_name,email,birthdate,gender,password,status) " +
+                            "values(@account_id,@last_name,@middle_name,@first_name,@email,@birthdate,@gender,@password,@status)";
                 foreach(var item in userModels)
                 {
-                    var data = await connection.ExecuteAsync(query, item);
+                    var data = await connection.ExecuteAsync(query, new
+                    {
+                        account_id=item.AccountId,
+                        last_name = item.Lastname,
+                        middle_name = item.Middlename,
+                        first_name = item.Firstname,
+                        email = item.Email,
+                        birthdate = item.Birthdate,
+                        gender = item.Gender,
+                        password = item.Password,
+                        status = item.Status,
+                    });
+                    if(data == 0)
+                    {
+                        return false;
+                    }
                 }
             }
             catch (Exception)
             {
-
-                throw;
+                return false;
             }
             return result;
         }
@@ -65,14 +78,14 @@ namespace WorkShop.Library.Services
                 using (MySqlConnection connection = new MySqlConnection(this._appConfig.Db))
                 {
 
-                    string query = "select email from `email` where email = @email ";
+                    string query = "select email from `user` where email = @email ";
 
                     foreach (var item in userModels)
                     {
                         var data = await connection.QueryAsync(query, new { email = item.Email });
 
                         if (data.Count() > 0)
-                            return true;
+                            return false;
                     }
                 }
             }
@@ -80,7 +93,7 @@ namespace WorkShop.Library.Services
             {
                 Log.Error(ex.ToString());
             }
-            return false;
+            return true;
         }
     }
 }

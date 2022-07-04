@@ -34,8 +34,8 @@ namespace WorkShop.Library.Services
                 }
                 string query = "insert into  `corporate` ( account_id, company_name, sec_registration_no, tin, office_address, business_nature, yrs_in_operation, tel_no, fax_no, email) " +
                     "values " +
-                    "(@account_id, @company_name, @sec_registration_no, @tin, @office_address, @business_nature, @yrs_in_operation, @tel_no, @fax_no, @email)" +
-                    "select last_insert_id(); ";
+                    "(@account_id, @company_name, @sec_registration_no, @tin, @office_address, @business_nature, @yrs_in_operation, @tel_no, @fax_no, @email)";
+                    
 
                 var data = await connection.ExecuteAsync(query, new
                 {
@@ -86,7 +86,7 @@ namespace WorkShop.Library.Services
                     var data = await connection.QueryAsync(query, new { email = coporateModel.Email });
 
                     if (data.Count() > 0)
-                        return true;
+                        return false;
                 }
             }
             catch (Exception ex)
@@ -94,7 +94,7 @@ namespace WorkShop.Library.Services
                 Log.Error(ex.ToString());
             }
 
-            return false;
+            return true;
         }
     }
 }
