@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using WorkShop.Library.ICommand;
 using WorkShop.Library.Model;
 
 namespace WorkShop.Library.IServices
 {
-    public interface ICorporateCommand
+    public interface ICorporateCommand : ICommandOperation<CorporateModel>
     {
-        Task<bool> CreateCoporate(CoporateModel coporateModel, MySqlConnection connection);
-
-        Task<bool> Validate(CoporateModel coporateModel);
+        Task<bool> Validate(CorporateModel coporateModel);
     }
 }

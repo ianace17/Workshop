@@ -8,6 +8,6 @@ namespace WorkShop.Library.Model
 {
     public class CorporateRegistrationModel : RegistrationModel
     {
-
+        public CorporateModel CorporateDetails { get; set; }
     }
 }

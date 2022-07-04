@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using WorkShop.Library.ICommand;
 using WorkShop.Library.Model;
 
 namespace WorkShop.Library.IServices
 {
-    public interface IUserCommand
+    public interface IUserCommand : ICommandOperation<UserModel>
     {
-        Task<bool> CreateUser(List<UserModel> userModels, MySqlConnection connection);
 
         Task<bool> ValidateUser(List<UserModel> userModels);
 
