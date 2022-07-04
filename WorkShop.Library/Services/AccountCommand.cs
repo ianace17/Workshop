@@ -32,7 +32,7 @@ namespace WorkShop.Library.Services
                     "civil_status, spouse_name, tin, email, occupation, business_nature, employer_name, business_address) " +
                     "values " +
                     "(@last_name, @first_name, @middle_name, @tel_no, @mobile_no, @nationality, " +
-                    "@civil_status, @spouse_name, @tin, @email, @occupation, @business_nature, @employer_name, @business_address)" +
+                    "@civil_status, @spouse_name, @tin, @email, @occupation, @business_nature, @employer_name, @business_address);" +
                     "select last_insert_id(); ";
                 if(connection == null)
                 {

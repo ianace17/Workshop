@@ -1,3 +1,4 @@
+using WebAPI.Endpoints;
 using WorkShop.Library;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
-app.MapControllers();
+CommandEndpoints.AddEndpoints(app);
 
 app.Run();

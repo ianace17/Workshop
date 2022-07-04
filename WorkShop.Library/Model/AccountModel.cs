@@ -14,7 +14,7 @@ namespace WorkShop.Library.Model
         public string Middlename { get; set; }
         public string TelNo { get; set; }
         public string MobileNo { get; set; }
-        public string Nationality { get; set; }
+        public char Nationality { get; set; }
         public string SpouseName { get; set; }
         public string Tin { get; set; }
         public string Email { get; set; }

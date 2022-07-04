@@ -14,7 +14,7 @@ namespace WorkShop.Library.Services
     public class RegistrationCommand : IRegistrationCommand
     {
 
-        private string _errorMessage = string.Empty;
+        public string _errorMessage = string.Empty;
 
         private IAppConfig _appConfig;
         private IAccountCommand _accountCommand;
@@ -46,7 +46,7 @@ namespace WorkShop.Library.Services
                     return result;
                 }
 
-                if (corporateRegistrationModel.Users.Count > 1)
+                if (corporateRegistrationModel.Users.Count == 0)
                 {
                     this._errorMessage = "Invalid Number of Corporate User";
                     return result;
@@ -66,6 +66,7 @@ namespace WorkShop.Library.Services
 
                 using (MySqlConnection cnn = new MySqlConnection(this._appConfig.Db))
                 {
+                    cnn.Open();
                     using (MySqlTransaction transaction = cnn.BeginTransaction())
                     {
                         result = await this._accountCommand.Add(corporateRegistrationModel.AccountDetails, cnn);
@@ -89,6 +90,7 @@ namespace WorkShop.Library.Services
                             else
                             {
                                 transaction.Rollback();
+                                return false;
                             }
 
                         }
@@ -108,7 +110,7 @@ namespace WorkShop.Library.Services
             bool result = false;
             try
             {
-                if(registrationModel.Users.Count < 0 || registrationModel.Users.Count > 0)
+                if(registrationModel.Users.Count != 1)
                 {
                     this._errorMessage = "Invalid User";
                     return result;
@@ -121,6 +123,7 @@ namespace WorkShop.Library.Services
                 }
                 using (MySqlConnection cnn = new MySqlConnection(this._appConfig.Db))
                 {
+                    cnn.Open();
                     using (MySqlTransaction transaction = cnn.BeginTransaction())
                     {
                         result = await this._accountCommand.Add(registrationModel.AccountDetails, cnn);
@@ -142,6 +145,7 @@ namespace WorkShop.Library.Services
                             else
                             {
                                 transaction.Rollback();
+                                return false;
                             }
 
                         }
@@ -154,5 +158,8 @@ namespace WorkShop.Library.Services
             }
             return result;
         }
+
+        public string GetErrorMessage() => _errorMessage;
+        
     }
 }
