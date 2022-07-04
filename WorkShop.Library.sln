@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkShop.Library", "WorkSho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesktopApp", "DesktopApp\DesktopApp.csproj", "{F49EAE85-4289-4209-B6B0-5F857E3984EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{72171DB4-3939-4226-98BD-C9A7A9DC3F70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F49EAE85-4289-4209-B6B0-5F857E3984EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F49EAE85-4289-4209-B6B0-5F857E3984EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F49EAE85-4289-4209-B6B0-5F857E3984EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72171DB4-3939-4226-98BD-C9A7A9DC3F70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72171DB4-3939-4226-98BD-C9A7A9DC3F70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72171DB4-3939-4226-98BD-C9A7A9DC3F70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72171DB4-3939-4226-98BD-C9A7A9DC3F70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
