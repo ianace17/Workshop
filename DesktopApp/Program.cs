@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,8 @@ namespace DesktopApp
 
             ApplicationConfiguration.Initialize();
             var host = CreateHostBuilder().Build();
+
+
             Application.Run(host.Services.GetRequiredService<Form1>());
         }
 
@@ -27,7 +30,16 @@ namespace DesktopApp
               {
                   services.AddWorkshopLibrary();
                   services.AddScoped<Form1>();
-              });
+                  
+              })
+                         .ConfigureAppConfiguration((context, builder) =>
+                         {
+                             // Add other configuration files...
+                             builder.AddJsonFile("appsettings.json", optional: true);
+                         })
+            ;
+
+
     }
 
 }
